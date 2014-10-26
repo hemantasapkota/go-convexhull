@@ -5,7 +5,7 @@ import (
 
 	"github.com/go-gl/gl"
 	"github.com/go-gl/glfw"
-	"github.com/go-gl/glu"
+	"github.com/hemantasapkota/glu"
 
 	"./convexhull"
 )
