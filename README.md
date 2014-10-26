@@ -37,5 +37,5 @@ CGO_CFLAGS="-I/usr/local/Cellar/glew/1.11.0/include/" CGO_LDFLAGS="-L/usr/local/
 cd go-convexhull
 go get
 go get ./convexhull
-go run convexhull.go
+go run main.go
 ```
