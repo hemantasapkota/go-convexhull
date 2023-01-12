@@ -1,11 +1,11 @@
-package convexhull
+package main
 
 import (
 	"fmt"
 	"math"
 	"sort"
 
-	"github.com/go-gl/gl"
+	"github.com/go-gl/gl/v2.1/gl"
 )
 
 type Point struct {
@@ -14,11 +14,11 @@ type Point struct {
 
 type PointList []Point
 
-func MakePoint(x float64, y float64) Point {
+func makePoint(x float64, y float64) Point {
 	return Point{X: x, Y: y}
 }
 
-func PrintStack(s *Stack) {
+func printStack(s *Stack) {
 	v := s.top
 	fmt.Printf("Stack: ")
 	for v != nil {
@@ -28,7 +28,7 @@ func PrintStack(s *Stack) {
 	fmt.Println("")
 }
 
-//Implement sort interface
+// Implement sort interface
 func (p PointList) Len() int {
 	return len(p)
 }
@@ -39,11 +39,9 @@ func (p PointList) Swap(i, j int) {
 
 func (p PointList) Less(i, j int) bool {
 	area := Area2(p[0], p[i], p[j])
-
 	if area == 0 {
 		x := math.Abs(p[i].X-p[0].X) - math.Abs(p[j].X-p[0].X)
 		y := math.Abs(p[i].Y-p[0].Y) - math.Abs(p[j].Y-p[0].Y)
-
 		if x < 0 || y < 0 {
 			return true
 		} else if x > 0 || y > 0 {
@@ -52,7 +50,6 @@ func (p PointList) Less(i, j int) bool {
 			return false
 		}
 	}
-
 	return area > 0
 }
 
@@ -79,18 +76,11 @@ func (points PointList) Compute() (PointList, bool) {
 	stack.Push(points[0])
 	stack.Push(points[1])
 
-	fmt.Println("-START----------------------------------------")
-	fmt.Printf("Sorted Points: %v\n", points)
-
 	i := 2
 	for i < len(points) {
 		pi := points[i]
-
-		PrintStack(stack)
-
 		p1 := stack.top.next.value.(Point)
 		p2 := stack.top.value.(Point)
-
 		if isLeft(p1, p2, pi) {
 			stack.Push(pi)
 			i++
@@ -108,8 +98,6 @@ func (points PointList) Compute() (PointList, bool) {
 		top = top.next
 		count++
 	}
-
-	fmt.Println("-END------------------------------------------------")
 	return ret, true
 }
 
@@ -122,6 +110,7 @@ func Area2(a, b, c Point) float64 {
 }
 
 func (points PointList) DrawPoints() {
+	gl.PointSize(5)
 	gl.Begin(gl.POINTS)
 	for _, p := range points {
 		gl.Color3f(1, 0, 0)
@@ -143,7 +132,6 @@ func (points PointList) DrawLowestPoint() {
 	if len(points) <= 0 {
 		return
 	}
-
 	gl.Begin(gl.POINTS)
 	gl.Color3f(0, 0, 0)
 	gl.Vertex2f(float32(points[0].X), float32(points[0].Y))
