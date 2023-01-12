@@ -132,7 +132,6 @@ func (points PointList) DrawLowestPoint() {
 	if len(points) <= 0 {
 		return
 	}
-
 	gl.Begin(gl.POINTS)
 	gl.Color3f(0, 0, 0)
 	gl.Vertex2f(float32(points[0].X), float32(points[0].Y))
