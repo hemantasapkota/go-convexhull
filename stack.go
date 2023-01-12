@@ -1,6 +1,6 @@
 // Stack implementation from
 // https://gist.github.com/bemasher/1777766
-package convexhull
+package main
 
 type Stack struct {
 	top  *Element
