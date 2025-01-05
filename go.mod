@@ -1,8 +1,13 @@
 module yolmo/go-convexhull
 
-go 1.19
+go 1.22.0
+
+toolchain go1.23.3
+
+require github.com/gen2brain/raylib-go/raylib v0.0.0-20241228120719-d58ffe1a3a73
 
 require (
-	github.com/go-gl/gl v0.0.0-20211210172815-726fda9656d6
-	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20221017161538-93cebf72946b
+	github.com/ebitengine/purego v0.8.1 // indirect
+	golang.org/x/exp v0.0.0-20250103183323-7d7fa50e5329 // indirect
+	golang.org/x/sys v0.29.0 // indirect
 )
