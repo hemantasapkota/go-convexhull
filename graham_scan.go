@@ -133,11 +133,10 @@ func (points PointList) DrawLines() {
 		screenX2 := int32((points[next].X + 1) * float64(width) / 2)
 		screenY2 := int32((-points[next].Y + 1) * float64(height) / 2)
 
-		rl.DrawLine(
-			screenX1,
-			screenY1,
-			screenX2,
-			screenY2,
+		rl.DrawLineEx(
+			rl.Vector2{X: float32(screenX1), Y: float32(screenY1)},
+			rl.Vector2{X: float32(screenX2), Y: float32(screenY2)},
+			3,
 			rl.Blue,
 		)
 	}
