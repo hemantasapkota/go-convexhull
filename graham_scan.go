@@ -5,7 +5,7 @@ import (
 	"math"
 	"sort"
 
-	"github.com/go-gl/gl/v2.1/gl"
+	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
 type Point struct {
@@ -110,30 +110,49 @@ func Area2(a, b, c Point) float64 {
 }
 
 func (points PointList) DrawPoints() {
-	gl.PointSize(5)
-	gl.Begin(gl.POINTS)
 	for _, p := range points {
-		gl.Color3f(1, 0, 0)
-		gl.Vertex2f(float32(p.X), float32(p.Y))
+		// Convert from normalized coordinates back to screen coordinates
+		screenX := int32((p.X + 1) * float64(width) / 2)
+		screenY := int32((-p.Y + 1) * float64(height) / 2)
+		rl.DrawCircle(
+			screenX,
+			screenY,
+			5,
+			rl.Red,
+		)
 	}
-	gl.End()
 }
 
 func (points PointList) DrawLines() {
-	gl.Begin(gl.LINE_LOOP)
-	for _, p := range points {
-		gl.Color3f(0, 0, 1)
-		gl.Vertex2f(float32(p.X), float32(p.Y))
+	for i := 0; i < len(points); i++ {
+
+		next := (i + 1) % len(points)
+		// Convert from normalized coordinates back to screen coordinates
+		screenX1 := int32((points[i].X + 1) * float64(width) / 2)
+		screenY1 := int32((-points[i].Y + 1) * float64(height) / 2)
+		screenX2 := int32((points[next].X + 1) * float64(width) / 2)
+		screenY2 := int32((-points[next].Y + 1) * float64(height) / 2)
+
+		rl.DrawLineEx(
+			rl.Vector2{X: float32(screenX1), Y: float32(screenY1)},
+			rl.Vector2{X: float32(screenX2), Y: float32(screenY2)},
+			3,
+			rl.Blue,
+		)
 	}
-	gl.End()
 }
 
 func (points PointList) DrawLowestPoint() {
 	if len(points) <= 0 {
 		return
 	}
-	gl.Begin(gl.POINTS)
-	gl.Color3f(0, 0, 0)
-	gl.Vertex2f(float32(points[0].X), float32(points[0].Y))
-	gl.End()
+	// Convert from normalized coordinates back to screen coordinates
+	screenX := int32((points[0].X + 1) * float64(width) / 2)
+	screenY := int32((-points[0].Y + 1) * float64(height) / 2)
+	rl.DrawCircle(
+		screenX,
+		screenY,
+		5,
+		rl.Black,
+	)
 }
